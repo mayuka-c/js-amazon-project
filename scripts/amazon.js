@@ -1,9 +1,5 @@
-import {
-  products,
-  loadProducts,
-  loadProductsFetch,
-} from "../data/products.js";
-import { cart, addToCart } from "../data/cart.js";
+import { products, loadProductsFetch } from "../data/products.js";
+import { cart } from "../data/cart-class.js";
 
 // loadProducts(renderProductsGrid);
 
@@ -69,21 +65,21 @@ function renderProductsGrid() {
   });
 
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.productId;
+      cart.addToCart(productId);
+      updateCartQuantity();
+    });
+  });
 }
 
 export function updateCartQuantity() {
   let cartQuantity = 0;
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     cartQuantity += cartItem.quantity;
   });
 
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
-
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
-    addToCart(productId);
-    updateCartQuantity();
-  });
-});
