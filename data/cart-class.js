@@ -22,8 +22,7 @@ class Cart {
     localStorage.removeItem("cart-oop");
   }
 
-  addToCart(productId) {
-    console.log(productId);
+  addToCart(productId, quantity) {
     let matchingItem;
     this.cartItems.forEach((cartItem) => {
       if (productId === cartItem.productId) {
@@ -32,15 +31,14 @@ class Cart {
     });
 
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantity;
     } else {
       this.cartItems.push({
         productId,
-        quantity: 1,
+        quantity: quantity,
         deliveryOptionId: "1",
       });
     }
-    console.log(this.cartItems);
     this.saveToStorage();
   }
 
@@ -66,6 +64,14 @@ class Cart {
   removeAll() {
     this.cartItems = [];
     this.removeFromStorage();
+  }
+
+  getTotalQuantity() {
+    let cartQuantity = 0;
+    this.cartItems.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
+    });
+    return cartQuantity;
   }
 }
 

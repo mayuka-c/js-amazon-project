@@ -4,6 +4,15 @@ import { getProduct, loadProductsFetch } from "../data/products.js";
 import { cart } from "../data/cart-class.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 
+export function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.cartItems.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
 function orderHeader(order) {
   const dateString = dayjs(order.orderTime).format("MMMM D");
   return `<div class="order-header">
@@ -71,7 +80,7 @@ function orderDetails(products) {
 
 function renderOrder() {
   let ordersHTML = "";
-  orders.forEach((order, index) => {
+  orders.forEach((order) => {
     ordersHTML += `          
         ${orderHeader(order)}
 
@@ -85,6 +94,9 @@ function renderOrder() {
 }
 
 async function loadOrderPage() {
+  document.querySelector(".js-cart-quantity").innerHTML =
+    cart.getTotalQuantity();
+
   await loadProductsFetch();
   renderOrder();
 
@@ -92,7 +104,7 @@ async function loadOrderPage() {
     buyAgainBtn.addEventListener("click", () => {
       const productId = buyAgainBtn.dataset.productId;
 
-      cart.addToCart(productId);
+      cart.addToCart(productId, 1);
       window.location.href = "checkout.html";
     });
   });

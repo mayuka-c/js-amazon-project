@@ -3,10 +3,6 @@ import { cart } from "../data/cart-class.js";
 
 // loadProducts(renderProductsGrid);
 
-loadProductsFetch().then(() => {
-  renderProductsGrid();
-});
-
 function renderProductsGrid() {
   let productsHTML = "";
 
@@ -34,8 +30,8 @@ function renderProductsGrid() {
           </div>
 
           <div class="product-quantity-container">
-            <select>
-              <option selected value="1">1</option>
+            <select class="js-quantity-value-${product.id}">
+              <option value="1" selected>1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
@@ -65,21 +61,26 @@ function renderProductsGrid() {
   });
 
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
-
+  
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-      cart.addToCart(productId);
-      updateCartQuantity();
+
+      const productQuantity = parseInt(document.querySelector(`.js-quantity-value-${productId}`).value);
+      cart.addToCart(productId, productQuantity);
+
+      document.querySelector(".js-cart-quantity").innerHTML =
+        cart.getTotalQuantity();
     });
   });
 }
 
-export function updateCartQuantity() {
-  let cartQuantity = 0;
-  cart.cartItems.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+async function loadAmazonPage() {
+  document.querySelector(".js-cart-quantity").innerHTML =
+    cart.getTotalQuantity();
 
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  await loadProductsFetch();
+  renderProductsGrid();
 }
+
+loadAmazonPage();
