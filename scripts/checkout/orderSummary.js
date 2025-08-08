@@ -69,6 +69,17 @@ export function renderOrderSummary() {
     `;
   });
 
+  if (cart.cartItems.length === 0) {
+    cartSummaryHTML += `
+      <div> 
+        Your cart is empty.
+      </div>
+      <a class="button-primary view-products-link" href="amazon.html">
+        View products
+      </a>
+    `
+  }
+
   function deliveryOptionsHTML(matchingProduct, cartItem) {
     let html = "";
     deliveryOptions.forEach((deliveryOption) => {

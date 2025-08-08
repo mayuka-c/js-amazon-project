@@ -209,3 +209,21 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.place-order-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.view-products-link {
+  display: inline-block;
+  width: 20%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 8px;
+
+  text-align: center;
+  text-decoration: none;
+
+  margin-top: 6px;
+}

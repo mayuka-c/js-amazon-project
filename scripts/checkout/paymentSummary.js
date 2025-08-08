@@ -58,7 +58,9 @@ export function renderPaymentSummary() {
         <div class="payment-summary-money">$${formatCurrency(totalCents)}</div>
         </div>
 
-        <button class="place-order-button button-primary js-place-order">
+        <button class="place-order-button button-primary js-place-order"${
+          cart.cartItems.length === 0 ? " disabled" : ""
+        }>
         Place your order
         </button>
   
