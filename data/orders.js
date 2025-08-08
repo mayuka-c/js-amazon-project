@@ -14,7 +14,7 @@ export function getOrder(orderId) {
 
 export function fetchProductOrderDetails(order, productId) {
   let matchingItem;
-  order.products.some((item) => {
+  order?.products?.some((item) => {
     if (item.productId === productId) {
       matchingItem = item;
       return true;
@@ -22,8 +22,8 @@ export function fetchProductOrderDetails(order, productId) {
   });
 
   return {
-    quantity: matchingItem.quantity,
-    estimatedDelivery: matchingItem.estimatedDeliveryTime,
+    quantity: matchingItem?.quantity,
+    estimatedDelivery: matchingItem?.estimatedDeliveryTime,
   };
 }
 

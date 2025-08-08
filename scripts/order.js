@@ -90,7 +90,7 @@ function renderOrder() {
     `;
   });
 
-  document.querySelector(".js-orders-grid").innerHTML = ordersHTML;
+  document.querySelector(".js-orders-grid").innerHTML = ordersHTML || "No orders placed";
 }
 
 async function loadOrderPage() {

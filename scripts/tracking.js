@@ -15,6 +15,12 @@ function renderTrackingDetails() {
   const { orderId, productId } = fetchURLParameters();
 
   const matchingOrder = getOrder(orderId);
+
+  if (matchingOrder === undefined) {
+    document.querySelector(".js-order-tracking").innerHTML = "No orders to track";
+    return; 
+  }
+
   const {
     quantity,
     estimatedDelivery,
