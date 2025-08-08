@@ -34,7 +34,7 @@ function orderHeader(order) {
         </div>`;
 }
 
-function orderDetails(products) {
+function orderDetails(orderId, products) {
   let orderDetailsHTML = "";
 
   products.forEach((productItem) => {
@@ -66,7 +66,7 @@ function orderDetails(products) {
         </div>
 
         <div class="product-actions">
-            <a href="tracking.html">
+            <a href="tracking.html?orderId=${orderId}&productId=${productItem.productId}">
             <button class="track-package-button button-secondary">
                 Track package
             </button>
@@ -85,7 +85,7 @@ function renderOrder() {
         ${orderHeader(order)}
 
         <div class="order-details-grid">
-        ${orderDetails(order.products)}
+        ${orderDetails(order.id, order.products)}
         </div>
     `;
   });

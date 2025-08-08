@@ -48,8 +48,8 @@ function renderProductsGrid() {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
-            <img src="images/icons/checkmark.png">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
+            <img src="images/icons/checkmark.png">  
             Added
           </div>
 
@@ -61,13 +61,24 @@ function renderProductsGrid() {
   });
 
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
-  
+
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
 
-      const productQuantity = parseInt(document.querySelector(`.js-quantity-value-${productId}`).value);
+      const productQuantity = parseInt(
+        document.querySelector(`.js-quantity-value-${productId}`).value
+      );
       cart.addToCart(productId, productQuantity);
+
+      // make added text visible for sometime
+      const addedText = document.querySelector(
+        `.js-added-to-cart-${productId}`
+      );
+      addedText.style.opacity = "1";
+      setTimeout(() => {
+        addedText.style.opacity = "0";
+      }, 2000);
 
       document.querySelector(".js-cart-quantity").innerHTML =
         cart.getTotalQuantity();
