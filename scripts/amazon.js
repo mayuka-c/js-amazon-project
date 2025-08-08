@@ -3,10 +3,10 @@ import { cart } from "../data/cart-class.js";
 
 // loadProducts(renderProductsGrid);
 
-function renderProductsGrid() {
+function renderProductsGrid(productList) {
   let productsHTML = "";
 
-  products.forEach((product) => {
+  productList.forEach((product) => {
     const html = (productsHTML += `<div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -30,7 +30,7 @@ function renderProductsGrid() {
           </div>
 
           <div class="product-quantity-container">
-            <select class="js-quantity-value-${product.id}">
+            <select class="js-quantity-value">
               <option value="1" selected>1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -65,9 +65,9 @@ function renderProductsGrid() {
   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-
+      const productContainer = button.closest(".product-container");
       const productQuantity = parseInt(
-        document.querySelector(`.js-quantity-value-${productId}`).value
+        productContainer.querySelector(".js-quantity-value").value
       );
       cart.addToCart(productId, productQuantity);
 
@@ -86,12 +86,39 @@ function renderProductsGrid() {
   });
 }
 
+function handleSearch() {
+  const searchInput = document
+    .querySelector(".search-bar")
+    .value.trim()
+    .toLowerCase();
+  if (searchInput === "") {
+    renderProductsGrid(products);
+    return;
+  }
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchInput)
+  );
+  renderProductsGrid(filteredProducts);
+}
+
+function setupSearchEvents() {
+  document
+    .querySelector(".search-button")
+    .addEventListener("click", handleSearch);
+  document.querySelector(".search-bar").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  });
+}
+
 async function loadAmazonPage() {
   document.querySelector(".js-cart-quantity").innerHTML =
     cart.getTotalQuantity();
 
   await loadProductsFetch();
-  renderProductsGrid();
+  renderProductsGrid(products);
+  setupSearchEvents();
 }
 
 loadAmazonPage();
