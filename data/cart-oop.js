@@ -72,5 +72,3 @@ function Cart() {
 const cart = Cart();
 
 cart.loadFromStorage();
-
-console.log(cart);
