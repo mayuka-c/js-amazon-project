@@ -24,7 +24,11 @@ export function renderPaymentSummary() {
     <div class="payment-summary-title">Order Summary</div>
 
         <div class="payment-summary-row">
-        <div>Items (3):</div>
+        <div>${
+          cart.cartItems.length === 0 || cart.cartItems.length === 1
+            ? `Item (${cart.getTotalQuantity()})`
+            : `Items (${cart.getTotalQuantity()})`
+        }:</div>
         <div class="payment-summary-money">$${formatCurrency(
           productPriceCents
         )}</div>
