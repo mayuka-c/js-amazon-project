@@ -2,9 +2,10 @@ export const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 export function getOrder(orderId) {
   let matchingOrder;
-  orders.forEach((product) => {
+  orders.some((product) => {
     if (orderId === product.id) {
       matchingOrder = product;
+      return true;
     }
   });
 
@@ -20,7 +21,10 @@ export function fetchProductOrderDetails(order, productId) {
     }
   });
 
-  return {quantity: matchingItem.quantity, estimatedDelivery: matchingItem.estimatedDeliveryTime};
+  return {
+    quantity: matchingItem.quantity,
+    estimatedDelivery: matchingItem.estimatedDeliveryTime,
+  };
 }
 
 export function addOrder(order) {
